@@ -2,11 +2,12 @@
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController:MonoBehaviour {
-    CharacterController characterController;
-    Camera cam;
-
     public float moveSpeed = 300f;
     public float turnSpeed = 100f;
+
+    private CharacterController characterController;
+    private Camera cam;
+    private float turn = 0f;
 
     void Start() {
         characterController = GetComponent<CharacterController>();
@@ -15,13 +16,9 @@ public class PlayerController:MonoBehaviour {
         Camera.main.enabled = false;
     }
 
-    float turn = 0f;
-    float previousTurn = 0f;
-
     void FixedUpdate() {
         Vector2 mousePosition = Input.mousePosition;
         Vector3 screenPosition = cam.ScreenToViewportPoint(new Vector3(mousePosition.x, mousePosition.y, transform.position.z - cam.transform.position.z));
-        Debug.Log(screenPosition.x);
         turn = (screenPosition.x - 0.5f) * turnSpeed;
     }
 
