@@ -9,6 +9,10 @@ public class PlayerController:MonoBehaviour {
     private Camera cam;
     private Camera mainCam;
     private float turn = 0f;
+    private Transform myTransform;
+    private float lastWallDropPosition;
+
+    public GameObject trailWallPrefab;
 
     void Start() {
         characterController = GetComponent<CharacterController>();
@@ -16,6 +20,8 @@ public class PlayerController:MonoBehaviour {
         cam.enabled = true;
         mainCam = Camera.main;
         Camera.main.enabled = false;
+        myTransform = transform;
+        // DropWall();
     }
 
     void FixedUpdate() {
@@ -39,5 +45,12 @@ public class PlayerController:MonoBehaviour {
             Destroy(gameObject);
             mainCam.enabled = true;
         }
+    }
+
+    private void DropWall()
+    {
+        Instantiate(trailWallPrefab,
+                 new Vector3(Mathf.RoundToInt(myTransform.position.x), trailWallPrefab.transform.position.y, Mathf.RoundToInt(myTransform.position.z)),
+                 trailWallPrefab.transform.rotation);
     }
 }
