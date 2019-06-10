@@ -7,12 +7,14 @@ public class PlayerController:MonoBehaviour {
 
     private CharacterController characterController;
     private Camera cam;
+    private Camera mainCam;
     private float turn = 0f;
 
     void Start() {
         characterController = GetComponent<CharacterController>();
         cam = GetComponentInChildren<Camera>();
         cam.enabled = true;
+        mainCam = Camera.main;
         Camera.main.enabled = false;
     }
 
@@ -30,5 +32,12 @@ public class PlayerController:MonoBehaviour {
         Vector3 direction = Vector3.ClampMagnitude(new Vector3(0f, 0f, 1f), 1f) * moveSpeed;
         direction = transform.TransformDirection(direction);
         characterController.SimpleMove(direction * Time.fixedDeltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Wall")) {
+            Destroy(gameObject);
+            mainCam.enabled = true;
+        }
     }
 }
