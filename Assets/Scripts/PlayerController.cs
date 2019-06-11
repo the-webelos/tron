@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -14,8 +13,12 @@ public class PlayerController:MonoBehaviour {
     private Camera cam;
     private Animator animator;
     private Camera mainCam;
-    private float turn = 0f;
     private bool dead = false;
+    private float turn = 0f;
+    private Transform myTransform;
+    private float lastWallDropPosition;
+
+    public GameObject trailWallPrefab;
 
     void Start() {
         characterController = GetComponent<CharacterController>();
@@ -27,6 +30,8 @@ public class PlayerController:MonoBehaviour {
         if (mainCam != null) {
             mainCam.enabled = false;
         }
+        myTransform = transform;
+        DropWall();
     }
 
     void FixedUpdate() {
@@ -74,5 +79,11 @@ public class PlayerController:MonoBehaviour {
         yield return new WaitForSeconds(secondsBeforeSpectate);
         mainCam.enabled = true;
         Destroy(gameObject);
+    }
+
+    private void DropWall() {
+        Instantiate(trailWallPrefab,
+                 new Vector3(Mathf.RoundToInt(myTransform.position.x), trailWallPrefab.transform.position.y, Mathf.RoundToInt(myTransform.position.z)),
+                 trailWallPrefab.transform.rotation);
     }
 }
