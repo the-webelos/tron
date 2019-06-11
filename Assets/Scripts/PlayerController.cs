@@ -8,6 +8,7 @@ public class PlayerController:MonoBehaviour {
     public float turnSpeed = 100f;
     public GameObject explosionSystem;
     public float secondsBeforeSpectate = 2f;
+    public int framesBetweenWallDrops = 5;
 
     private CharacterController characterController;
     private Camera cam;
@@ -15,8 +16,7 @@ public class PlayerController:MonoBehaviour {
     private Camera mainCam;
     private bool dead = false;
     private float turn = 0f;
-    private Transform myTransform;
-    private Vector3 lastWallDropPosition;
+    private int ticksSinceLastDroppedWall = 0;
 
     public GameObject trailWallPrefab;
 
@@ -30,7 +30,6 @@ public class PlayerController:MonoBehaviour {
         if (mainCam != null) {
             mainCam.enabled = false;
         }
-        myTransform = transform;
         DropWall();
     }
 
@@ -48,18 +47,11 @@ public class PlayerController:MonoBehaviour {
             turn = (screenPosition.x - 0.5f) * turnSpeed;
         }
 
-        float playerVelocityMagnitude = characterController.velocity.magnitude;
-        float playerPositionMagnitude = characterController.transform.position.magnitude;
-
-        Debug.Log("Player velocity = " + playerVelocityMagnitude);
-        Debug.Log("Player position = " + playerPositionMagnitude);
-        Debug.Log("Player coords = " + characterController.transform.position);
-
-        float positionDiff = Mathf.Abs(playerPositionMagnitude - lastWallDropPosition.magnitude);
-
-        if (playerVelocityMagnitude > 0 && positionDiff > 3)
-        {
-            DropWall();
+        if (ticksSinceLastDroppedWall > framesBetweenWallDrops) {
+            StartCoroutine(DropWall());
+            ticksSinceLastDroppedWall = 0;
+        } else {
+            ticksSinceLastDroppedWall++;
         }
     }
 
@@ -95,10 +87,12 @@ public class PlayerController:MonoBehaviour {
         Destroy(gameObject);
     }
 
-    private void DropWall() {
-        // Create wall drop vector
-        lastWallDropPosition = new Vector3(Mathf.RoundToInt(myTransform.position.x), trailWallPrefab.transform.position.y, Mathf.RoundToInt(myTransform.position.z));
+    private IEnumerator DropWall() {
+        Vector3 p = new Vector3(Mathf.RoundToInt(characterController.transform.position.x), trailWallPrefab.transform.position.y, Mathf.RoundToInt(characterController.transform.position.z));
+        Quaternion q = characterController.transform.rotation;
+
+        yield return new WaitForSeconds(0.1f);
         // Drop wall with same rotation is that of the player
-        Instantiate(trailWallPrefab, lastWallDropPosition, characterController.transform.rotation);
+        Instantiate(trailWallPrefab, p, q);
     }
 }
