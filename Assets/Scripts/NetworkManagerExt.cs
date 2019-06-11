@@ -65,7 +65,7 @@ namespace Webelos.Tron
 		public void OnHostButton() {
 			networkAddress = hostIPInputField.text.ToString();
 			StartHost();
-			ServerChangeScene(LobbyScene);
+		//	ServerChangeScene(LobbyScene);
 		}
 
 		public override void OnStartServer()

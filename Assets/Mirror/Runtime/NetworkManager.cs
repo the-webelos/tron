@@ -753,8 +753,9 @@ namespace Mirror
 
             if (autoCreatePlayer && ClientScene.localPlayer == null)
             {
-                // add player if existing one is null
-                ClientScene.AddPlayer();
+				if (LogFilter.Debug) Debug.LogFormat("NetworkManager.OnClientSceneChanged AddPlayer conn:{0}", conn.connectionId);
+				// add player if existing one is null
+				ClientScene.AddPlayer();
             }
         }
         #endregion
