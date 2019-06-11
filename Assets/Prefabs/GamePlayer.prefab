@@ -114,6 +114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 600
   turnSpeed: 500
+  trailWallPrefab: {fileID: 2759096744974765555, guid: 91f9c8cf99dac4b83bebcc65f65459db,
+    type: 3}
 --- !u!114 &2517047599191516206
 MonoBehaviour:
   m_ObjectHideFlags: 0

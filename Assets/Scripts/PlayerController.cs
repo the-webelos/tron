@@ -21,7 +21,7 @@ public class PlayerController:MonoBehaviour {
         mainCam = Camera.main;
         Camera.main.enabled = false;
         myTransform = transform;
-        // DropWall();
+        DropWall();
     }
 
     void FixedUpdate() {
