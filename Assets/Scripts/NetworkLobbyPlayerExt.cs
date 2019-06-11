@@ -1,7 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Mirror;
 
-namespace Mirror.Examples.NetworkLobby
+using UnityEngine.UI;
+
+namespace Webelos.Tron
 {
     public class NetworkLobbyPlayerExt : NetworkLobbyPlayer
     {
@@ -23,18 +26,35 @@ namespace Mirror.Examples.NetworkLobby
                       in ServerChangeScene and OnClientChangeScene.
             */
 
-            if (lobby != null && SceneManager.GetActiveScene().name == lobby.LobbyScene)
-                gameObject.transform.SetParent(GameObject.Find("Players").transform);
-        }
+            if (lobby != null && SceneManager.GetActiveScene().name == lobby.LobbyScene) {
+				Button button = GameObject.Find("ReadyButton").GetComponent<Button>() as Button;
+				button.onClick.AddListener(OnReadyClick);
+			}
+		}
 
-        public override void OnClientEnterLobby()
+		void OnReadyClick()
+		{
+			Text buttonText = GameObject.Find("ReadyButton").GetComponentInChildren<Text>() as Text;
+			if (ReadyToBegin) {
+				buttonText.text = "Ready";
+				CmdChangeReadyState(false);
+			} else {
+				buttonText.text = "Cancel";
+				CmdChangeReadyState(true);
+			}
+		}
+
+		public override void OnClientEnterLobby()
         {
-            if (LogFilter.Debug) Debug.LogFormat("OnClientEnterLobby {0}", SceneManager.GetActiveScene().name);
+			if (LogFilter.Debug) Debug.LogFormat("OnClientEnterLobby index:{0} netId:{1} {2}", Index, netId, SceneManager.GetActiveScene().name);
+
+			gameObject.transform.SetParent(GameObject.Find("PlayerListContent").transform);
         }
 
         public override void OnClientExitLobby()
         {
             if (LogFilter.Debug) Debug.LogFormat("OnClientExitLobby {0}", SceneManager.GetActiveScene().name);
-        }
-    }
+			gameObject.transform.SetParent(null);
+		}
+	}
 }
