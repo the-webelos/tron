@@ -33,14 +33,12 @@ namespace Webelos.Tron
 
 		void OnReadyClick()
 		{
-			Debug.LogWarningFormat("OnReadyClick {0} {1} {2}", SceneManager.GetActiveScene().name, isLocalPlayer, netId);
-
 			Text buttonText = GameObject.Find("ReadyButton").GetComponentInChildren<Text>() as Text;
 			if (ReadyToBegin) {
-				buttonText.text = "ReadyBar";
+				buttonText.text = "Ready";
 				CmdChangeReadyState(false);
 			} else {
-				buttonText.text = "CancelFoo";
+				buttonText.text = "Cancel";
 				CmdChangeReadyState(true);
 			}
 		}
@@ -50,7 +48,6 @@ namespace Webelos.Tron
 			if (LogFilter.Debug) Debug.LogFormat("OnClientEnterLobby index:{0} netId:{1} {2}", Index, netId, SceneManager.GetActiveScene().name);
 
 			if (NetworkClient.active && isLocalPlayer) {
-				Debug.LogWarningFormat("Set OnReadyClick {0} {1}", isLocalPlayer, netId);
 				Button button = GameObject.Find("ReadyButton").GetComponent<Button>() as Button;
 				button.onClick.AddListener(OnReadyClick);
 			}

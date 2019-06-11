@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Mirror;
 
@@ -34,15 +35,17 @@ namespace Webelos.Tron
             is set as DontDestroyOnLoad = true.
         */
 
-		bool showStartButton;
+		bool showStartButton = true;
 
 		public override void OnLobbyServerPlayersReady()
 		{
 			// calling the base method calls ServerChangeScene as soon as all players are in Ready state.
 			if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null && startOnHeadless)
 				base.OnLobbyServerPlayersReady();
-			else
-				showStartButton = true;
+			else {
+				Text buttonText = GameObject.Find("StartButton").GetComponentInChildren<Text>() as Text;
+				buttonText.text = "Start";
+			}
 		}
 
 		public override void OnGUI()
@@ -57,19 +60,35 @@ namespace Webelos.Tron
 			}
 		}
 
-		public void OnJoinButton() {
+		public void OnJoinButton()
+		{
 			networkAddress = hostIPInputField.text.ToString();
-    		StartClient();
+			StartClient();
 		}
 
-		public void OnHostButton() {
+		public void OnHostButton()
+		{
 			networkAddress = hostIPInputField.text.ToString();
 			StartHost();
-		//	ServerChangeScene(LobbyScene);
 		}
 
-		public override void OnStartServer()
+		void OnStartClick()
 		{
+			ServerChangeScene(GameplayScene);
+		}
+
+		public override void OnLobbyClientSceneChanged(NetworkConnection conn)
+		{
+			if (SceneManager.GetActiveScene().name == LobbyScene) {
+				Button startButton = GameObject.Find("StartButton").GetComponent<Button>() as Button;
+
+				if (ClientScene.localPlayer.isServer) {
+					startButton.GetComponentInChildren<Text>().text = "Force Start";
+					startButton.onClick.AddListener(OnStartClick);
+				} else {
+					startButton.gameObject.SetActive(false);
+				}
+			}
 		}
 	}
 }
