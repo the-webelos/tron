@@ -48,39 +48,19 @@ public class PlayerController:MonoBehaviour {
             turn = (screenPosition.x - 0.5f) * turnSpeed;
         }
 
-        float playerVelocityMagniture = characterController.velocity.magnitude;
+        float playerVelocityMagnitude = characterController.velocity.magnitude;
         float playerPositionMagnitude = characterController.transform.position.magnitude;
 
-        Debug.Log("Player velocity = " + playerVelocityMagniture);
+        Debug.Log("Player velocity = " + playerVelocityMagnitude);
         Debug.Log("Player position = " + playerPositionMagnitude);
+        Debug.Log("Player coords = " + characterController.transform.position);
 
         float positionDiff = Mathf.Abs(playerPositionMagnitude - lastWallDropPosition.magnitude);
 
-        Debug.Log("Position diff = " + positionDiff);
-        if (playerVelocityMagniture > 0 && positionDiff > 3)
+        if (playerVelocityMagnitude > 0 && positionDiff > 3)
         {
             DropWall();
         }
-
-        //if (Input.GetKey(KeyCode.W))
-        //{ //Up movement
-        //    myTransform.rotation = Quaternion.Euler(0, 0, 0);
-        //}
-
-        //if (Input.GetKey(KeyCode.A))
-        //{ //Left movement
-        //    myTransform.rotation = Quaternion.Euler(0, 270, 0);
-        //}
-
-        //if (Input.GetKey(KeyCode.S))
-        //{ //Down movement
-        //    myTransform.rotation = Quaternion.Euler(0, 180, 0);
-        //}
-
-        //if (Input.GetKey(KeyCode.D))
-        //{ //Right movement
-        //    myTransform.rotation = Quaternion.Euler(0, 90, 0);
-        //}
     }
 
     void LateUpdate() {
@@ -116,7 +96,9 @@ public class PlayerController:MonoBehaviour {
     }
 
     private void DropWall() {
+        // Create wall drop vector
         lastWallDropPosition = new Vector3(Mathf.RoundToInt(myTransform.position.x), trailWallPrefab.transform.position.y, Mathf.RoundToInt(myTransform.position.z));
+        // Drop wall with same rotation is that of the player
         Instantiate(trailWallPrefab, lastWallDropPosition, characterController.transform.rotation);
     }
 }
