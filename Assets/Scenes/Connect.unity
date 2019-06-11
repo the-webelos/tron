@@ -512,7 +512,7 @@ MonoBehaviour:
   serverTickRate: 30
   showDebugMessages: 1
   offlineScene: Connect
-  onlineScene: 
+  onlineScene: Lobby
   transport: {fileID: 985035980}
   networkAddress: localhost
   maxConnections: 4
