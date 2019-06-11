@@ -526,7 +526,7 @@ MonoBehaviour:
   lobbyPlayerPrefab: {fileID: 6253553756463570838, guid: 6432a590b254043b38bb944ca2e9eeb7,
     type: 3}
   LobbyScene: Lobby
-  GameplayScene: LevelA
+  GameplayScene: Game
   lobbySlots: []
   allPlayersReady: 0
   hostIPInputField: {fileID: 313637413}

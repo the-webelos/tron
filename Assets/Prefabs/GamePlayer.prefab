@@ -115,6 +115,8 @@ MonoBehaviour:
   moveSpeed: 600
   turnSpeed: 500
   explosionSystem: {fileID: 100000, guid: e0dc4d47bced6d54ab1461804114b5d0, type: 3}
+  secondsBeforeSpectate: 2
+  framesBetweenWallDrops: 20
   trailWallPrefab: {fileID: 2759096744974765555, guid: 91f9c8cf99dac4b83bebcc65f65459db,
     type: 3}
 --- !u!114 &2517047599191516206
@@ -131,8 +133,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 1
-  m_AssetId: 89e0fd9d4a8214bf5a2697622ae1b2b1
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 1726976587
 --- !u!114 &7955759948901738200
 MonoBehaviour:
   m_ObjectHideFlags: 0
