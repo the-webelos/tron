@@ -16,7 +16,7 @@ public class PlayerController:MonoBehaviour {
     private bool dead = false;
     private float turn = 0f;
     private Transform myTransform;
-    private float lastWallDropPosition;
+    private Vector3 lastWallDropPosition;
 
     public GameObject trailWallPrefab;
 
@@ -47,6 +47,40 @@ public class PlayerController:MonoBehaviour {
         } else {
             turn = (screenPosition.x - 0.5f) * turnSpeed;
         }
+
+        float playerVelocityMagniture = characterController.velocity.magnitude;
+        float playerPositionMagnitude = characterController.transform.position.magnitude;
+
+        Debug.Log("Player velocity = " + playerVelocityMagniture);
+        Debug.Log("Player position = " + playerPositionMagnitude);
+
+        float positionDiff = Mathf.Abs(playerPositionMagnitude - lastWallDropPosition.magnitude);
+
+        Debug.Log("Position diff = " + positionDiff);
+        if (playerVelocityMagniture > 0 && positionDiff > 3)
+        {
+            DropWall();
+        }
+
+        //if (Input.GetKey(KeyCode.W))
+        //{ //Up movement
+        //    myTransform.rotation = Quaternion.Euler(0, 0, 0);
+        //}
+
+        //if (Input.GetKey(KeyCode.A))
+        //{ //Left movement
+        //    myTransform.rotation = Quaternion.Euler(0, 270, 0);
+        //}
+
+        //if (Input.GetKey(KeyCode.S))
+        //{ //Down movement
+        //    myTransform.rotation = Quaternion.Euler(0, 180, 0);
+        //}
+
+        //if (Input.GetKey(KeyCode.D))
+        //{ //Right movement
+        //    myTransform.rotation = Quaternion.Euler(0, 90, 0);
+        //}
     }
 
     void LateUpdate() {
@@ -82,8 +116,7 @@ public class PlayerController:MonoBehaviour {
     }
 
     private void DropWall() {
-        Instantiate(trailWallPrefab,
-                 new Vector3(Mathf.RoundToInt(myTransform.position.x), trailWallPrefab.transform.position.y, Mathf.RoundToInt(myTransform.position.z)),
-                 trailWallPrefab.transform.rotation);
+        lastWallDropPosition = new Vector3(Mathf.RoundToInt(myTransform.position.x), trailWallPrefab.transform.position.y, Mathf.RoundToInt(myTransform.position.z));
+        Instantiate(trailWallPrefab, lastWallDropPosition, characterController.transform.rotation);
     }
 }
