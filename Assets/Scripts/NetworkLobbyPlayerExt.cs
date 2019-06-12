@@ -8,6 +8,9 @@ namespace Webelos.Tron
 {
     public class NetworkLobbyPlayerExt : NetworkLobbyPlayer
     {
+		public Text nameText;
+		public Text isReadyText;
+
         public string Name;
         public override void OnStartClient()
         {
@@ -27,20 +30,24 @@ namespace Webelos.Tron
             */
 
 			if (lobby != null && SceneManager.GetActiveScene().name == lobby.LobbyScene) {
-    			gameObject.transform.SetParent(GameObject.Find("PlayerListContent").transform);
+				GameObject playerListContent = GameObject.Find("PlayerListContent");
+
+				gameObject.transform.position = new Vector3(0, 0, 0);
+
+				gameObject.transform.SetParent(playerListContent.transform, false);
+				gameObject.layer = 5; //UI
+
+				playerListContent.SetActive(false);
+				playerListContent.SetActive(true);
+
+				//				LayoutRebuilder.ForceRebuildLayoutImmediate(playerListContent.transform as RectTransform);
 			}
 		}
 
 		void OnReadyClick()
 		{
-			Text buttonText = GameObject.Find("ReadyButton").GetComponentInChildren<Text>() as Text;
-			if (ReadyToBegin) {
-				buttonText.text = "Ready";
-				CmdChangeReadyState(false);
-			} else {
-				buttonText.text = "Cancel";
-				CmdChangeReadyState(true);
-			}
+			Debug.LogWarningFormat("OnReadyClick index:{0} netId:{1} {2}", Index, netId, ReadyToBegin);
+			CmdChangeReadyState(!ReadyToBegin);
 		}
 
 		public override void OnClientEnterLobby()
@@ -51,12 +58,23 @@ namespace Webelos.Tron
 				Button button = GameObject.Find("ReadyButton").GetComponent<Button>() as Button;
 				button.onClick.AddListener(OnReadyClick);
 			}
+
+			nameText.text = $"Player [{Index + 1}]";
+			Debug.LogWarningFormat("OnClientEnterLobby index:{0} netId:{1} {2}", Index, netId, ReadyToBegin);
+			isReadyText.text = "Not Ready";
 		}
 
-		public override void OnClientExitLobby()
-        {
-            if (LogFilter.Debug) Debug.LogFormat("OnClientExitLobby {0}", SceneManager.GetActiveScene().name);
-			gameObject.transform.SetParent(null);
+		public override void OnClientReady(bool readyState) {
+			Debug.LogWarningFormat("OnClientReady index:{0} netId:{1} {2} {3}", Index, netId, readyState, ReadyToBegin);
+			Text buttonText = GameObject.Find("ReadyButton").GetComponentInChildren<Text>() as Text;
+
+			if (readyState) {
+				isReadyText.text = "Ready";
+				buttonText.text = "Cancel";
+			} else {
+				isReadyText.text = "Not Ready";
+				buttonText.text = "Ready";
+			}
 		}
 	}
 }

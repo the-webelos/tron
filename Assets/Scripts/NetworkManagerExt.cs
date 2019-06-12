@@ -35,8 +35,6 @@ namespace Webelos.Tron
             is set as DontDestroyOnLoad = true.
         */
 
-		bool showStartButton = true;
-
 		public override void OnLobbyServerPlayersReady()
 		{
 			// calling the base method calls ServerChangeScene as soon as all players are in Ready state.
@@ -48,27 +46,35 @@ namespace Webelos.Tron
 			}
 		}
 
-		public override void OnGUI()
-		{
-			base.OnGUI();
-
-			if (allPlayersReady && showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME")) {
-				// set to false to hide it in the game scene
-				showStartButton = false;
-
-				ServerChangeScene(GameplayScene);
-			}
-		}
+//		public override void OnGUI()
+//		{
+//			base.OnGUI();
+//
+//			if (allPlayersReady && showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME")) {
+//				// set to false to hide it in the game scene
+//				showStartButton = false;
+//
+//				ServerChangeScene(GameplayScene);
+//			}
+//		}
 
 		public void OnJoinButton()
 		{
-			networkAddress = hostIPInputField.text.ToString();
+			networkAddress = hostIPInputField.text;
+			if (string.IsNullOrEmpty(networkAddress)) {
+				networkAddress = "127.0.0.1";
+			}
+
 			StartClient();
 		}
 
 		public void OnHostButton()
 		{
 			networkAddress = hostIPInputField.text.ToString();
+			if (string.IsNullOrEmpty(networkAddress)) {
+				networkAddress = "127.0.0.1";
+			}
+
 			StartHost();
 		}
 
@@ -82,7 +88,7 @@ namespace Webelos.Tron
 			if (SceneManager.GetActiveScene().name == LobbyScene) {
 				Button startButton = GameObject.Find("StartButton").GetComponent<Button>() as Button;
 
-				if (ClientScene.localPlayer.isServer) {
+				if (ClientScene.localPlayer && ClientScene.localPlayer.isServer) {
 					startButton.GetComponentInChildren<Text>().text = "Force Start";
 					startButton.onClick.AddListener(OnStartClick);
 				} else {

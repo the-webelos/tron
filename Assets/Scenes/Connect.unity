@@ -190,7 +190,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 127.0.0.1
+  m_Text: Host IP
 --- !u!222 &80172787
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -521,7 +521,7 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
-  showLobbyGUI: 1
+  showLobbyGUI: 0
   minPlayers: 1
   lobbyPlayerPrefab: {fileID: 6253553756463570838, guid: 6432a590b254043b38bb944ca2e9eeb7,
     type: 3}
