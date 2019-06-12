@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1700354657147948581}
   - component: {fileID: 1700354657147948583}
   - component: {fileID: 1700354657147948576}
+  - component: {fileID: 3309329654655929130}
   - component: {fileID: 2517047599191516206}
   - component: {fileID: 7955759948901738200}
   m_Layer: 0
@@ -117,8 +118,24 @@ MonoBehaviour:
   explosionSystem: {fileID: 100000, guid: e0dc4d47bced6d54ab1461804114b5d0, type: 3}
   secondsBeforeSpectate: 2
   framesBetweenWallDrops: 20
+  playerInput: {fileID: 3309329654655929130}
+  playerCam: {fileID: 1700354657675289652}
   trailWallPrefab: {fileID: 2759096744974765555, guid: 91f9c8cf99dac4b83bebcc65f65459db,
     type: 3}
+--- !u!114 &3309329654655929130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700354657147948577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3218fda1755134914a6023edf13fb71b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 1700354657675289652}
+  turnSpeed: 500
 --- !u!114 &2517047599191516206
 MonoBehaviour:
   m_ObjectHideFlags: 0
