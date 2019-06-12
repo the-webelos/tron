@@ -6,18 +6,18 @@ using UnityEngine.UI;
 
 namespace Webelos.Tron
 {
-    public class NetworkLobbyPlayerExt : NetworkLobbyPlayer
-    {
+	public class NetworkLobbyPlayerExt : NetworkLobbyPlayer
+	{
 		public Text nameText;
 		public Text isReadyText;
 
-        public string Name;
-        public override void OnStartClient()
-        {
-            if (LogFilter.Debug) Debug.LogFormat("OnStartClient {0}", SceneManager.GetActiveScene().name);
+		public string Name;
+		public override void OnStartClient()
+		{
+			if (LogFilter.Debug) Debug.LogFormat("OnStartClient {0}", SceneManager.GetActiveScene().name);
 
-            base.OnStartClient();
-            NetworkLobbyManager lobby = NetworkManager.singleton as NetworkLobbyManager;
+			base.OnStartClient();
+			NetworkLobbyManager lobby = NetworkManager.singleton as NetworkLobbyManager;
 
 			/*
                 This demonstrates how to set the parent of the LobbyPlayerPrefab to an arbitrary scene object
@@ -47,7 +47,7 @@ namespace Webelos.Tron
 		}
 
 		public override void OnClientEnterLobby()
-        {
+		{
 			if (LogFilter.Debug) Debug.LogFormat("OnClientEnterLobby index:{0} netId:{1} {2}", Index, netId, SceneManager.GetActiveScene().name);
 
 			if (NetworkClient.active && isLocalPlayer) {
@@ -59,15 +59,24 @@ namespace Webelos.Tron
 			isReadyText.text = "Not Ready";
 		}
 
-		public override void OnClientReady(bool readyState) {
-			Text buttonText = GameObject.Find("ReadyButton").GetComponentInChildren<Text>() as Text;
+		public override void OnClientReady(bool readyState)
+		{
+			Debug.LogWarningFormat("OnClientReady index:{0} netId:{1} {2}", Index, netId, readyState);
 
 			if (readyState) {
 				isReadyText.text = "Ready";
-				buttonText.text = "Cancel";
 			} else {
 				isReadyText.text = "Not Ready";
-				buttonText.text = "Ready";
+			}
+
+			if (NetworkClient.active && isLocalPlayer) {
+				Text buttonText = GameObject.Find("ReadyButton").GetComponentInChildren<Text>() as Text;
+
+				if (readyState) {
+					buttonText.text = "Cancel";
+				} else {
+					buttonText.text = "Ready";
+				}
 			}
 		}
 	}
