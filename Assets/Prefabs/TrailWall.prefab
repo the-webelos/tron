@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2759096744974765558}
   - component: {fileID: 2759096744974765557}
   - component: {fileID: 2759096744974765556}
+  - component: {fileID: 4297223884321188089}
+  - component: {fileID: 4916587747242286234}
   m_Layer: 0
   m_Name: TrailWall
   m_TagString: Wall
@@ -91,3 +93,33 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4297223884321188089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2759096744974765555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 91f9c8cf99dac4b83bebcc65f65459db
+  m_SceneId: 0
+--- !u!114 &4916587747242286234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2759096744974765555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0.1
+  compressRotation: 1

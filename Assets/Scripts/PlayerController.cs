@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Mirror;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Camera))]
@@ -83,6 +84,7 @@ public class PlayerController:MonoBehaviour {
 
         yield return new WaitForSeconds(0.1f);
         // Drop wall with same rotation is that of the player
-        Instantiate(trailWallPrefab, p, q);
+        GameObject wall = Instantiate(trailWallPrefab, p, q);
+		NetworkServer.Spawn(wall);
     }
 }
