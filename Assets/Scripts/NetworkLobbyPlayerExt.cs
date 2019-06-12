@@ -37,7 +37,7 @@ namespace Webelos.Tron
 				gameObject.transform.SetParent(playerListContent.transform, false);
 				gameObject.transform.SetAsLastSibling();
 
-				LayoutRebuilder.ForceRebuildLayoutImmediate(playerListContent.transform as RectTransform);
+				//LayoutRebuilder.ForceRebuildLayoutImmediate(playerListContent.transform as RectTransform);
 			}
 		}
 
