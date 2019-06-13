@@ -19,12 +19,14 @@ public class PlayerController:MonoBehaviour {
     private bool dead = false;
     private int ticksSinceLastDroppedWall = 0;
 	private GamePrep gamePrep;
+	private WallSpawnManager wallSpawnManager;
 
     public GameObject trailWallPrefab;
 
     void Start() {
         characterController = GetComponent<CharacterController>();
 		gamePrep = GameObject.Find("GameManagement").GetComponent<GamePrep>();
+		wallSpawnManager = GameObject.Find("SpawnManager").GetComponent<WallSpawnManager>();
 
         // enable the follow camera and disable the main camera
         playerCam.enabled = true;
@@ -80,10 +82,24 @@ public class PlayerController:MonoBehaviour {
 
     private void DropWall() {
 		Vector3 p = new Vector3(transform.position.x, transform.position.y, transform.position.z) - (transform.forward.normalized * 2f);
-        Quaternion q = transform.rotation;
+//        Quaternion q = transform.rotation;
 
-        // Drop wall with same rotation is that of the player
-        GameObject wall = Instantiate(trailWallPrefab, p, q);
-		NetworkServer.Spawn(wall);
-    }
+		GameObject wall = wallSpawnManager.GetFromPool(p);
+		wall.transform.rotation = transform.rotation;
+
+		NetworkServer.Spawn(wall, wallSpawnManager.assetId);
+
+		StartCoroutine(DestroyWall(wall, 30.0f));
+
+		// Drop wall with same rotation is that of the player
+		//GameObject wall = Instantiate(trailWallPrefab, p, q);
+	}
+
+	private IEnumerator DestroyWall(GameObject wall, float timer)
+	{
+		yield return new WaitForSeconds(timer);
+		wallSpawnManager.UnSpawnObject(wall);
+		NetworkServer.UnSpawn(wall);
+	}
+
 }
