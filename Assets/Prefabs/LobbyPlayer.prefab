@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -235, y: -15}
+  m_AnchoredPosition: {x: -230.1, y: -11.100006}
   m_SizeDelta: {x: 70, y: 30}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &4010245227731349083
@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ' Ready'
+  m_Text: 
 --- !u!1 &2240817603185118278
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +183,7 @@ MonoBehaviour:
   Index: 0
   nameText: {fileID: 8265493017796610975}
   isReadyText: {fileID: 581425124711845967}
+  playerColor: {r: 0, g: 0, b: 0, a: 0}
   Name: 
 --- !u!1 &7185730611073289724
 GameObject:
@@ -295,8 +296,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 50, y: 3.9}
+  m_SizeDelta: {x: 291.31, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &8114061545992403423
 CanvasRenderer:
@@ -339,7 +340,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: JAKE JAKE JAKE
+  m_Text: 
 --- !u!1001 &357712176783166351
 PrefabInstance:
   m_ObjectHideFlags: 0
