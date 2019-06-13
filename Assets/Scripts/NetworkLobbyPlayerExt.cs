@@ -12,6 +12,8 @@ namespace Webelos.Tron
         public Text isReadyText;
         public Color playerColor;
 
+        private GameObject playerPreview;
+
 		[SyncVar]
 		public string Name;
 
@@ -51,33 +53,36 @@ namespace Webelos.Tron
 		}
 
         public void NextColor() {
-            Color newColor = PlayerColors.NextColor(playerColor);
-            playerColor = PlayerColors.NextColor(playerColor);
+            playerColor = PlayerColors.NextColor(PlayerColors.NextColor(playerColor));
+            UpdatePlayerColor(playerColor);
         }
 
         public void PreviousColor() {
-            Color newColor = PlayerColors.NextColor(playerColor);
-            playerColor = PlayerColors.PreviousColor(playerColor);
+            playerColor = PlayerColors.PreviousColor(PlayerColors.PreviousColor(playerColor));
+            UpdatePlayerColor(playerColor);
         }
 
         public override void OnClientEnterLobby()
 		{
 			if (LogFilter.Debug) Debug.LogFormat("OnClientEnterLobby index:{0} netId:{1} {2}", Index, netId, SceneManager.GetActiveScene().name);
 
-			if (NetworkClient.active && isLocalPlayer) {
-				Button button = GameObject.Find("ReadyButton").GetComponent<Button>() as Button;
-				button.onClick.AddListener(OnReadyClick);
+            nameText.text = Name;
+            isReadyText.text = "Not Ready";
+            playerColor = PlayerColors.RandomColor();
+
+            if (NetworkClient.active && isLocalPlayer) {
+                Button button = GameObject.Find("ReadyButton").GetComponent<Button>() as Button;
+                button.onClick.AddListener(OnReadyClick);
 
                 Button button1 = GameObject.Find("ToggleRight").GetComponent<Button>() as Button;
                 button1.onClick.AddListener(NextColor);
 
                 Button button2 = GameObject.Find("ToggleLeft").GetComponent<Button>() as Button;
                 button2.onClick.AddListener(PreviousColor);
-            }
 
-			nameText.text = Name;
-			isReadyText.text = "Not Ready";
-            playerColor = PlayerColors.RandomColor();
+                playerPreview = GameObject.Find("PlayerPreview");
+                UpdatePlayerColor(playerColor);
+            }
         }
 
 		public override void OnClientReady(bool readyState)
@@ -103,5 +108,9 @@ namespace Webelos.Tron
 				}
 			}
 		}
+
+        private void UpdatePlayerColor(Color color) {
+            playerPreview.GetComponent<MeshRenderer>().material.color = playerColor;
+        }
 	}
 }
