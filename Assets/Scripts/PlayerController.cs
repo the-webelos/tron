@@ -11,7 +11,6 @@ public class PlayerController:MonoBehaviour {
     public float secondsBeforeSpectate = 2f;
     public int framesBetweenWallDrops = 5;
 	public PlayerInput playerInput;
-	public Camera playerCam;
 
 	private CharacterController characterController;
     private Animator animator;
@@ -20,13 +19,15 @@ public class PlayerController:MonoBehaviour {
     private int ticksSinceLastDroppedWall = 0;
 	private GamePrep gamePrep;
 	private WallSpawnManager wallSpawnManager;
+	private Camera playerCam;
 
-    public GameObject trailWallPrefab;
+	public GameObject trailWallPrefab;
 
     void Start() {
         characterController = GetComponent<CharacterController>();
 		gamePrep = GameObject.Find("GameManagement").GetComponent<GamePrep>();
 		wallSpawnManager = GameObject.Find("SpawnManager").GetComponent<WallSpawnManager>();
+		playerCam = GetComponentInChildren<Camera>();
 
         // enable the follow camera and disable the main camera
         playerCam.enabled = true;

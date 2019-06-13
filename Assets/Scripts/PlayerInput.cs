@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-	public Camera cam;
 	public float turnSpeed;
 
+	private Camera cam;
 	private float look;
+
+	void Start()
+	{
+		cam = GetComponentInChildren<Camera>();
+	}
 
 	void FixedUpdate() {
 		Vector2 mousePosition = Input.mousePosition;
