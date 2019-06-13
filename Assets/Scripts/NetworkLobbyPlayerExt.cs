@@ -48,7 +48,15 @@ namespace Webelos.Tron
 			CmdChangeReadyState(!ReadyToBegin);
 		}
 
-		public override void OnClientEnterLobby()
+        void NextColor() {
+            playerColor = PlayerColors.NextColor(playerColor);
+        }
+
+        void PreviousColor() {
+            playerColor = PlayerColors.PreviousColor(playerColor);
+        }
+
+        public override void OnClientEnterLobby()
 		{
 			if (LogFilter.Debug) Debug.LogFormat("OnClientEnterLobby index:{0} netId:{1} {2}", Index, netId, SceneManager.GetActiveScene().name);
 
