@@ -32,14 +32,13 @@ public class PlayerController:MonoBehaviour {
         if (mainCam != null) {
             mainCam.enabled = false;
         }
-        DropWall();
     }
 
     void FixedUpdate() {
 		if (!gamePrep.complete) return;
 
         if (ticksSinceLastDroppedWall > framesBetweenWallDrops) {
-            StartCoroutine(DropWall());
+            DropWall();
             ticksSinceLastDroppedWall = 0;
         } else {
             ticksSinceLastDroppedWall++;
@@ -57,12 +56,13 @@ public class PlayerController:MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Wall")) {
-            StartCoroutine(PlayerDeath());
-        }
-    }
+        //if (other.CompareTag("Wall")) {
+       //     StartCoroutine(PlayerDeath());
+       // }
+	   if (!dead) StartCoroutine(PlayerDeath());
+	}
 
-    private IEnumerator PlayerDeath() {
+	private IEnumerator PlayerDeath() {
         // stop the player's movement and disable the renderer so the player object is hidden
         dead = true;
         GetComponent<MeshRenderer>().enabled = false;
@@ -78,11 +78,10 @@ public class PlayerController:MonoBehaviour {
         Destroy(gameObject);
     }
 
-    private IEnumerator DropWall() {
-        Vector3 p = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+    private void DropWall() {
+		Vector3 p = new Vector3(transform.position.x, transform.position.y, transform.position.z) - (transform.forward.normalized * 2f);
         Quaternion q = transform.rotation;
 
-        yield return new WaitForSeconds(0.1f);
         // Drop wall with same rotation is that of the player
         GameObject wall = Instantiate(trailWallPrefab, p, q);
 		NetworkServer.Spawn(wall);

@@ -115,7 +115,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 600
   turnSpeed: 500
-  explosionSystem: {fileID: 100000, guid: e0dc4d47bced6d54ab1461804114b5d0, type: 3}
+  explosionSystem: {fileID: 1000011128802252, guid: 96730f8640590934eacb6f860058e7f9,
+    type: 3}
   secondsBeforeSpectate: 2
   framesBetweenWallDrops: 20
   playerInput: {fileID: 3309329654655929130}
