@@ -47,7 +47,9 @@ public class PlayerController : NetworkBehaviour
 		Debug.LogWarningFormat("OnStartLocalPlayer {0}", name);
 		base.OnStartLocalPlayer();
 
-		characterController = GetComponent<CharacterController>();
+        GameObject.Find("Main Camera").gameObject.transform.parent = this.transform;
+
+        characterController = GetComponent<CharacterController>();
 		gamePrep = GameObject.Find("GameManagement").GetComponent<GamePrep>();
 		wallSpawnManager = GameObject.Find("SpawnManager").GetComponent<WallSpawnManager>();
 
