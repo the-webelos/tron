@@ -20,9 +20,11 @@ namespace Webelos.Tron
 		/// <returns>true unless some code in here decides it needs to abort the replacement</returns>
 		public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
 		{
-			// PlayerController player = gamePlayer.GetComponent<PlayerController>();
-			// player.Index = lobbyPlayer.GetComponent<NetworkLobbyPlayer>().Index;
-			// player.playerColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+			gamePlayer.name = "Player " + lobbyPlayer.GetComponent<NetworkLobbyPlayer>().Index;
+
+			//PlayerController player = gamePlayer.GetComponent<PlayerController>();
+			//	player.Index = lobbyPlayer.GetComponent<NetworkLobbyPlayer>().Index;
+			//player.playerColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 			return true;
 		}
 
