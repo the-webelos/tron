@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -196,8 +196,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb61aa48e2a3e4fe29e7f15ecaa5cd14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncInterval: 0.1
   startCountdown: {fileID: 70971324}
   countdownText: {fileID: 1802093364}
+  musicManager: {fileID: 635084331}
+  countdownFadeAnimator: {fileID: 1802093366}
   complete: 0
 --- !u!1001 &79525086
 PrefabInstance:
@@ -961,6 +964,112 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1001 &635084330
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7715646891703927571, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_Name
+      value: MusicManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927573, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927573, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927573, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927573, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927573, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927573, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927573, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927573, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927573, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927573, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927573, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927572, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a6cf4256cef78554bbb6dc7dd316e0c4, type: 3}
+    - target: {fileID: 7715646891703927572, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927572, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927572, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7715646891703927574, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd, type: 3}
+--- !u!114 &635084331 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7715646891703927574, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 635084330}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76028d919dff6024bbcc9b5e90509f17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &638160686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3131,6 +3240,7 @@ GameObject:
   - component: {fileID: 1802093363}
   - component: {fileID: 1802093365}
   - component: {fileID: 1802093364}
+  - component: {fileID: 1802093366}
   m_Layer: 5
   m_Name: CountdownText
   m_TagString: Untagged
@@ -3199,6 +3309,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1802093362}
   m_CullTransparentMesh: 0
+--- !u!95 &1802093366
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802093362}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 08ad0ef9468131c4a9b4a061d2a51ede, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1807046399
 GameObject:
   m_ObjectHideFlags: 0
