@@ -14,12 +14,9 @@ public class PlayerController : NetworkBehaviour
 	public PlayerInput playerInput;
 
 	private CharacterController characterController;
-	private Animator animator;
-	private Camera mainCam;
 	private int ticksSinceLastDroppedWall = 0;
 	private GamePrep gamePrep;
 	private WallSpawnManager wallSpawnManager;
-	private Camera playerCam;
 
 	public GameObject trailWallPrefab;
 
@@ -44,17 +41,14 @@ public class PlayerController : NetworkBehaviour
 
 	public override void OnStartLocalPlayer()
 	{
+		base.OnStartLocalPlayer();
+
 		characterController = GetComponent<CharacterController>();
 		gamePrep = GameObject.Find("GameManagement").GetComponent<GamePrep>();
 		wallSpawnManager = GameObject.Find("SpawnManager").GetComponent<WallSpawnManager>();
-		playerCam = GetComponentInChildren<Camera>();
 
-		// enable the follow camera and disable the main camera
-		playerCam.enabled = true;
-		mainCam = Camera.main;
-		if (mainCam != null) {
-			mainCam.enabled = false;
-		}
+		GetComponentInChildren<Camera>().enabled = true;
+		Camera.main.enabled = false;
 	}
 
 	void FixedUpdate()
@@ -103,7 +97,7 @@ public class PlayerController : NetworkBehaviour
 
 		// after secondsBeforeSpectate, enable the main camera for spectating and destroy this game object
 		yield return new WaitForSeconds(secondsBeforeSpectate);
-		mainCam.enabled = true;
+		Camera.main.enabled = true;
 		Destroy(gameObject);
 	}
 
