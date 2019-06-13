@@ -9,7 +9,8 @@ namespace Webelos.Tron
 	public class NetworkLobbyPlayerExt : NetworkLobbyPlayer
 	{
 		public Text nameText;
-		public Text isReadyText;
+        public Text isReadyText;
+        public Color playerColor;
 
 		public string Name;
 		public override void OnStartClient()
@@ -57,7 +58,8 @@ namespace Webelos.Tron
 
 			nameText.text = $"Player [{Index + 1}]";
 			isReadyText.text = "Not Ready";
-		}
+            playerColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+        }
 
 		public override void OnClientReady(bool readyState)
 		{
