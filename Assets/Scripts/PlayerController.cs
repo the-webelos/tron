@@ -112,8 +112,10 @@ public class PlayerController : NetworkBehaviour
 
 		GameObject wall = wallSpawnManager.GetFromPool(p);
 		wall.transform.rotation = transform.rotation;
+        wall.GetComponent<Renderer>().material.color = playerColor;
 
-		NetworkServer.Spawn(wall, wallSpawnManager.assetId);
+
+        NetworkServer.Spawn(wall, wallSpawnManager.assetId);
 
 		StartCoroutine(DestroyWall(wall, 30.0f));
 
