@@ -22,9 +22,9 @@ namespace Webelos.Tron
 		{
 			gamePlayer.name = "Player " + lobbyPlayer.GetComponent<NetworkLobbyPlayer>().Index;
 
-			//PlayerController player = gamePlayer.GetComponent<PlayerController>();
-			//	player.Index = lobbyPlayer.GetComponent<NetworkLobbyPlayer>().Index;
-			//player.playerColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+			PlayerController player = gamePlayer.GetComponent<PlayerController>();
+			player.playerColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+			//player.Index = lobbyPlayer.GetComponent<NetworkLobbyPlayer>().Index;
 			return true;
 		}
 
