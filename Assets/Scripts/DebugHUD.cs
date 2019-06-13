@@ -25,7 +25,7 @@ public class DebugHUD : MonoBehaviour
 		if (NetworkServer.active) {
 			GUILayout.Label("Server: active. Transport: " + Transport.activeTransport);
 			for (int i = 0; i < NetworkServer.connections.Count; i++) {
-    			GUILayout.Label("Server: connection: " + NetworkServer.connections[i].ToString());
+    			GUILayout.Label("Server: connection: " + NetworkServer.connections[i]?.ToString());
 			}
 		}
 
