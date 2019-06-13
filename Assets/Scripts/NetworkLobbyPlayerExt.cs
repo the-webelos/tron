@@ -58,7 +58,7 @@ namespace Webelos.Tron
 
 			nameText.text = $"Player [{Index + 1}]";
 			isReadyText.text = "Not Ready";
-            playerColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+            playerColor = PlayerColors.RandomColor();
         }
 
 		public override void OnClientReady(bool readyState)
