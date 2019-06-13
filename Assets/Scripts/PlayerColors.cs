@@ -20,7 +20,7 @@ public static class PlayerColors {
     }
 
     public static Color NextColor(Color color) {
-        string hex = ColorUtility.ToHtmlStringRGB(color);
+        string hex = GetHex(color);
         int index = 0;
         for (int i = 0; i < colors.Length; i++) {
             if (colors[i].Equals(hex)) {
@@ -29,6 +29,7 @@ public static class PlayerColors {
                 } else {
                     index = i + 1;
                 }
+                break;
             }
         }
         ColorUtility.TryParseHtmlString(colors[index], out Color c);
@@ -36,7 +37,7 @@ public static class PlayerColors {
     }
 
     public static Color PreviousColor(Color color) {
-        string hex = ColorUtility.ToHtmlStringRGB(color);
+        string hex = GetHex(color);
         int index = 0;
         for (int i = 0; i < colors.Length; i++) {
             if (colors[i].Equals(hex)) {
@@ -45,9 +46,14 @@ public static class PlayerColors {
                 } else {
                     index = i - 1;
                 }
+                break;
             }
         }
         ColorUtility.TryParseHtmlString(colors[index], out Color c);
         return c;
+    }
+
+    private static string GetHex(Color color) {
+        return "#" + ColorUtility.ToHtmlStringRGB(color);
     }
 }

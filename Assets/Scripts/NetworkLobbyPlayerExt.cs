@@ -50,11 +50,13 @@ namespace Webelos.Tron
 			CmdChangeReadyState(!ReadyToBegin);
 		}
 
-        void NextColor() {
+        public void NextColor() {
+            Color newColor = PlayerColors.NextColor(playerColor);
             playerColor = PlayerColors.NextColor(playerColor);
         }
 
-        void PreviousColor() {
+        public void PreviousColor() {
+            Color newColor = PlayerColors.NextColor(playerColor);
             playerColor = PlayerColors.PreviousColor(playerColor);
         }
 
@@ -65,7 +67,13 @@ namespace Webelos.Tron
 			if (NetworkClient.active && isLocalPlayer) {
 				Button button = GameObject.Find("ReadyButton").GetComponent<Button>() as Button;
 				button.onClick.AddListener(OnReadyClick);
-			}
+
+                Button button1 = GameObject.Find("ToggleRight").GetComponent<Button>() as Button;
+                button1.onClick.AddListener(NextColor);
+
+                Button button2 = GameObject.Find("ToggleLeft").GetComponent<Button>() as Button;
+                button2.onClick.AddListener(PreviousColor);
+            }
 
 			nameText.text = Name;
 			isReadyText.text = "Not Ready";
