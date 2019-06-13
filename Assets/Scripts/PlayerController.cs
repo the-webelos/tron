@@ -81,6 +81,8 @@ public class PlayerController:MonoBehaviour {
     }
 
     private void DropWall() {
+		return;
+
 		Vector3 p = new Vector3(transform.position.x, transform.position.y, transform.position.z) - (transform.forward.normalized * 2f);
 //        Quaternion q = transform.rotation;
 
