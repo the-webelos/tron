@@ -12,7 +12,9 @@ namespace Webelos.Tron
         public Text isReadyText;
         public Color playerColor;
 
+		[SyncVar]
 		public string Name;
+
 		public override void OnStartClient()
 		{
 			if (LogFilter.Debug) Debug.LogFormat("OnStartClient {0}", SceneManager.GetActiveScene().name);
@@ -37,7 +39,7 @@ namespace Webelos.Tron
 
 				gameObject.transform.SetParent(playerListContent.transform, false);
 				gameObject.transform.SetAsLastSibling();
-				gameObject.name = "LobbyPlayer " + Index;
+				Name = "LobbyPlayer " + Index;
 
 				//LayoutRebuilder.ForceRebuildLayoutImmediate(playerListContent.transform as RectTransform);
 			}
@@ -73,7 +75,7 @@ namespace Webelos.Tron
                 button2.onClick.AddListener(PreviousColor);
             }
 
-			nameText.text = $"Player [{Index + 1}]";
+			nameText.text = Name;
 			isReadyText.text = "Not Ready";
             playerColor = PlayerColors.RandomColor();
         }

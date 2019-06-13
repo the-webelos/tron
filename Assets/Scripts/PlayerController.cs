@@ -13,6 +13,9 @@ public class PlayerController : NetworkBehaviour
 	public int framesBetweenWallDrops = 5;
 	public PlayerInput playerInput;
 
+	[SyncVar]
+	public string Name;
+
 	private CharacterController characterController;
 	private int ticksSinceLastDroppedWall = 0;
 	private GamePrep gamePrep;
@@ -41,6 +44,7 @@ public class PlayerController : NetworkBehaviour
 
 	public override void OnStartLocalPlayer()
 	{
+		Debug.LogWarningFormat("OnStartLocalPlayer {0}", name);
 		base.OnStartLocalPlayer();
 
 		characterController = GetComponent<CharacterController>();
@@ -88,7 +92,7 @@ public class PlayerController : NetworkBehaviour
 	{
 		// stop the player's movement and disable the renderer so the player object is hidden
 		dead = true;
-		GetComponent<MeshRenderer>().enabled = false;
+		GetComponentInChildren<MeshRenderer>().enabled = false;
 
 		// spawn an explosion
 		if (explosionSystem) {
