@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class GamePrep : MonoBehaviour
+public class GamePrep : NetworkBehaviour
 {
 	public StartCountdown startCountdown;
 	public Text countdownText;
+
+	[SyncVar(hook = nameof(OnComplete))]
 	public bool complete;
 
 	void Start() {
 		complete = false;
     }
 
+	void OnComplete(bool comp) {
+	}
+
 	// Update is called once per fram
-    void Update()
+	void Update()
     {
 		if (startCountdown.timeleft <= 0) {
 			countdownText.text = "PLAY";

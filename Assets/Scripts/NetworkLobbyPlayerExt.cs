@@ -37,6 +37,7 @@ namespace Webelos.Tron
 
 				gameObject.transform.SetParent(playerListContent.transform, false);
 				gameObject.transform.SetAsLastSibling();
+				gameObject.name = "LobbyPlayer " + Index;
 
 				//LayoutRebuilder.ForceRebuildLayoutImmediate(playerListContent.transform as RectTransform);
 			}
@@ -72,7 +73,10 @@ namespace Webelos.Tron
 			}
 
 			if (NetworkClient.active && isLocalPlayer) {
-				Text buttonText = GameObject.Find("ReadyButton").GetComponentInChildren<Text>() as Text;
+				GameObject readyButton = GameObject.Find("ReadyButton");
+				if (readyButton == null) return;
+
+				Text buttonText = readyButton.GetComponentInChildren<Text>() as Text;
 
 				if (readyState) {
 					buttonText.text = "Cancel";
