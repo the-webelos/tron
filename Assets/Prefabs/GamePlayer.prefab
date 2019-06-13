@@ -75,6 +75,7 @@ MonoBehaviour:
   secondsBeforeSpectate: 2
   framesBetweenWallDrops: 20
   playerInput: {fileID: 3309329654655929130}
+  Name: 
   trailWallPrefab: {fileID: 2759096744974765555, guid: 91f9c8cf99dac4b83bebcc65f65459db,
     type: 3}
   playerColor: {r: 1, g: 1, b: 1, a: 1}
@@ -271,6 +272,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584921958961099343, guid: 3b93e4b53bf0b4b86873a8bf902a3e92,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584921958961099343, guid: 3b93e4b53bf0b4b86873a8bf902a3e92,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b93e4b53bf0b4b86873a8bf902a3e92, type: 3}
