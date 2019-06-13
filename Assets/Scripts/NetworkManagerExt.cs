@@ -46,37 +46,32 @@ namespace Webelos.Tron
 			}
 		}
 
-//		public override void OnGUI()
-//		{
-//			base.OnGUI();
-//
-//			if (allPlayersReady && showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME")) {
-//				// set to false to hide it in the game scene
-//				showStartButton = false;
-//
-//				ServerChangeScene(GameplayScene);
-//			}
-//		}
+        //		public override void OnGUI()
+        //		{
+        //			base.OnGUI();
+        //
+        //			if (allPlayersReady && showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME")) {
+        //				// set to false to hide it in the game scene
+        //				showStartButton = false;
+        //
+        //				ServerChangeScene(GameplayScene);
+        //			}
+        //		}
+        public Toggle hostToggle;
+        public Toggle joinToggle;
 
-		public void OnJoinButton()
+        public void OnGo()
 		{
 			networkAddress = hostIPInputField.text;
 			if (string.IsNullOrEmpty(networkAddress)) {
 				networkAddress = "127.0.0.1";
 			}
 
-			StartClient();
-		}
-
-		public void OnHostButton()
-		{
-			networkAddress = hostIPInputField.text.ToString();
-			if (string.IsNullOrEmpty(networkAddress)) {
-				networkAddress = "127.0.0.1";
-			}
-
-			StartHost();
-		}
+            if(joinToggle.isOn)
+			    StartClient();
+            else if (hostToggle.isOn)
+                StartHost();
+        }
 
 		void OnStartClick()
 		{
