@@ -30,7 +30,7 @@ public class PlayerController : NetworkBehaviour
 
 	void SetColor(Color color)
 	{
-		if (materialClone == null) materialClone = GetComponent<Renderer>().material;
+		if (materialClone == null) materialClone = GetComponentInChildren<Renderer>().material;
 		materialClone.color = color;
 	}
 

@@ -23,7 +23,9 @@ namespace Webelos.Tron
         /// <returns>true unless some code in here decides it needs to abort the replacement</returns>
         public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
 		{
+			if (LogFilter.Debug) Debug.LogFormat("OnLobbyServerSceneLoadedForPlayer {0}", SceneManager.GetActiveScene().name);
 			gamePlayer.name = "Player " + lobbyPlayer.GetComponent<NetworkLobbyPlayer>().Index;
+			if (LogFilter.Debug) Debug.LogFormat("OnLobbyServerSceneLoadedForPlayer name {0}", gamePlayer.name);
 
 			PlayerController player = gamePlayer.GetComponent<PlayerController>();
 			player.playerColor = lobbyPlayer.GetComponent<NetworkLobbyPlayerExt>().playerColor;
