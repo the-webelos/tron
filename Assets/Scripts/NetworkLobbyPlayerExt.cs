@@ -10,16 +10,18 @@ namespace Webelos.Tron
 	{
 		public Text nameText;
         public Text isReadyText;
+
+        [SyncVar(hook = nameof(UpdatePlayerColor))]
         public Color playerColor;
+
+		[SyncVar]
+		public string Name;
 
         private GameObject playerPreview;
         private GameObject playerIcon;
         private Text playerPreviewName;
 
-		[SyncVar]
-		public string Name;
-
-		public override void OnStartClient()
+        public override void OnStartClient()
 		{
 			if (LogFilter.Debug) Debug.LogFormat("OnStartClient {0}", SceneManager.GetActiveScene().name);
 
@@ -56,21 +58,15 @@ namespace Webelos.Tron
 
         public void NextColor() {
             playerColor = PlayerColors.NextColor(PlayerColors.NextColor(playerColor));
-            UpdatePlayerColor(playerColor);
         }
 
         public void PreviousColor() {
             playerColor = PlayerColors.PreviousColor(PlayerColors.PreviousColor(playerColor));
-            UpdatePlayerColor(playerColor);
         }
 
         public override void OnClientEnterLobby()
 		{
 			if (LogFilter.Debug) Debug.LogFormat("OnClientEnterLobby index:{0} netId:{1} {2}", Index, netId, SceneManager.GetActiveScene().name);
-
-            nameText.text = Name;
-            isReadyText.text = "Not Ready";
-            playerColor = PlayerColors.RandomColor();
 
             if (NetworkClient.active && isLocalPlayer) {
                 Button button = GameObject.Find("ReadyButton").GetComponent<Button>() as Button;
@@ -87,9 +83,11 @@ namespace Webelos.Tron
 
                 playerPreviewName = GameObject.Find("PlayerName").GetComponent<Text>();
                 playerPreviewName.text = Name;
-
-                UpdatePlayerColor(playerColor);
             }
+
+            nameText.text = Name;
+            isReadyText.text = "Not Ready";
+            playerColor = PlayerColors.RandomColor();
         }
 
 		public override void OnClientReady(bool readyState)
