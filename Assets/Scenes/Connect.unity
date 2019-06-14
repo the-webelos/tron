@@ -710,7 +710,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &684589053
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,8 +851,8 @@ GameObject:
   m_Component:
   - component: {fileID: 985035982}
   - component: {fileID: 985035981}
-  - component: {fileID: 985035980}
   - component: {fileID: 985035983}
+  - component: {fileID: 985035980}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -1354,7 +1354,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1560337641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1988,5 +1988,10 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 4ddc70c7ce294934184f06aae290616c, type: 3}
+    - target: {fileID: 7715646891703927572, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.293
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d6503001bbc88b418f4c5c8a9d3f3bd, type: 3}
