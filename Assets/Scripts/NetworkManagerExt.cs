@@ -13,6 +13,8 @@ namespace Webelos.Tron
         public Toggle hostToggle;
         public Toggle joinToggle;
 
+		public int numPlayersLoadedGameScene = 0;
+
         /// <summary>
         /// Called just after GamePlayer object is instantiated and just before it replaces LobbyPlayer object.
         /// This is the ideal point to pass any data like player name, credentials, tokens, colors, etc.
@@ -23,11 +25,15 @@ namespace Webelos.Tron
         /// <returns>true unless some code in here decides it needs to abort the replacement</returns>
         public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
 		{
+			Debug.LogWarningFormat("OnLobbyServerSceneLoadedForPlayer {0} {1} {2}", SceneManager.GetActiveScene().name, numPlayers, numPlayersLoadedGameScene);
 
 			PlayerController player = gamePlayer.GetComponent<PlayerController>();
 			player.playerColor = lobbyPlayer.GetComponent<NetworkLobbyPlayerExt>().playerColor;
 			player.Name = "Player " + lobbyPlayer.GetComponent<NetworkLobbyPlayer>().Index;
 			//player.Index = lobbyPlayer.GetComponent<NetworkLobbyPlayer>().Index;
+
+			numPlayersLoadedGameScene += 1;
+
 			return true;
 		}
 
@@ -79,6 +85,14 @@ namespace Webelos.Tron
 				} else {
 					startButton.gameObject.SetActive(false);
 				}
+			}
+		}
+
+		public override void OnLobbyServerSceneChanged(string sceneName)
+		{
+			base.OnLobbyServerSceneChanged(sceneName);
+			if (sceneName == GameplayScene) {
+				numPlayersLoadedGameScene = 0;
 			}
 		}
 	}
