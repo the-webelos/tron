@@ -14,7 +14,6 @@ namespace Webelos.Tron
         [SyncVar(hook="UpdatePlayerColor")]
         public Color playerColor;
 
-		[SyncVar]
 		public string Name;
 
         Material playerPreviewMaterial;
@@ -23,7 +22,7 @@ namespace Webelos.Tron
 
         public override void OnStartClient()
 		{
-			if (LogFilter.Debug) Debug.LogFormat("OnStartClient {0}", SceneManager.GetActiveScene().name);
+			if (LogFilter.Debug) Debug.LogFormat("OnStartClient index:{0} netId:{1} {2} {3}", Index, netId, SceneManager.GetActiveScene().name, playerColor);
 
 			base.OnStartClient();
 			NetworkLobbyManager lobby = NetworkManager.singleton as NetworkLobbyManager;
@@ -51,9 +50,8 @@ namespace Webelos.Tron
                 playerIconMaterial = gameObject.transform.Find("Player").Find("PlayerBodyCapsule").gameObject.GetComponent<MeshRenderer>().material;
                 playerPreviewName = GameObject.Find("PlayerName").GetComponent<Text>();
 
-                playerColor = PlayerColors.RandomColor();
-                UpdatePlayerColor(playerColor);
-            }
+				nameText.text = Name;
+			}
 		}
 
         private void OnDestroy() {
@@ -66,22 +64,22 @@ namespace Webelos.Tron
 			CmdChangeReadyState(!ReadyToBegin);
 		}
 
-        public void NextColor() {
-            if (LogFilter.Debug) Debug.Log("CHANGE COLOR NEXT");
-            playerColor = PlayerColors.NextColor(playerColor);
+        void NextColor() {
+			if (LogFilter.Debug) Debug.Log("CHANGE COLOR NEXT");
+			CmdUpdatePlayerColor(PlayerColors.NextColor(playerColor));
         }
 
-        public void PreviousColor() {
-            if (LogFilter.Debug) Debug.Log("CHANGE COLOR PREVIOUS");
-            playerColor = PlayerColors.PreviousColor(playerColor);
+        void PreviousColor() {
+			if (LogFilter.Debug) Debug.Log("CHANGE COLOR PREVIOUS");
+            CmdUpdatePlayerColor(PlayerColors.PreviousColor(playerColor));
         }
 
         public override void OnClientEnterLobby()
 		{
-			if (LogFilter.Debug) Debug.LogFormat("OnClientEnterLobby index:{0} netId:{1} {2}", Index, netId, SceneManager.GetActiveScene().name);
+			if (LogFilter.Debug) Debug.LogFormat("OnClientEnterLobby index:{0} netId:{1} {2} {3} {4}", Index, netId, SceneManager.GetActiveScene().name, playerColor, isLocalPlayer);
 
-            if (NetworkClient.active && isLocalPlayer) {
-                Button button = GameObject.Find("ReadyButton").GetComponent<Button>() as Button;
+			if (isLocalPlayer) {
+				Button button = GameObject.Find("ReadyButton").GetComponent<Button>() as Button;
                 button.onClick.AddListener(OnReadyClick);
 
                 Button button1 = GameObject.Find("ToggleRight").GetComponent<Button>() as Button;
@@ -91,11 +89,11 @@ namespace Webelos.Tron
                 button2.onClick.AddListener(PreviousColor);
 
                 playerPreviewName.text = Name;
-            }
 
-            nameText.text = Name;
-            isReadyText.text = "Not Ready";
-            playerColor = PlayerColors.RandomColor();
+				CmdUpdatePlayerColor(PlayerColors.RandomColor());
+
+				CmdChangeReadyState(false);
+			}
         }
 
 		public override void OnClientReady(bool readyState)
@@ -120,16 +118,20 @@ namespace Webelos.Tron
 			}
 		}
 
-        void UpdatePlayerColor(Color color) {
-            if (LogFilter.Debug) Debug.LogFormat("Updating player's colors: {3}, {0}, {1}, {2}", color, playerPreviewMaterial, playerIconMaterial, isLocalPlayer);
+		[Command]
+		void CmdUpdatePlayerColor(Color color) {
+			playerColor = color;
+		}
 
-            if (!isServer)
-                playerColor = color;
-
+		void UpdatePlayerColor(Color color) {
             if (isLocalPlayer)
                 playerPreviewMaterial.color = color;
 
-            playerIconMaterial.color = color;
+			if (playerIconMaterial == null) {
+				playerIconMaterial = gameObject.transform.Find("Player").Find("PlayerBodyCapsule").gameObject.GetComponent<MeshRenderer>().material;
+			}
+
+			playerIconMaterial.color = color;
         }
 	}
 }
