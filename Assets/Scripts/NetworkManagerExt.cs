@@ -102,7 +102,7 @@ namespace Webelos.Tron
         {
             deadCount += 1;
 
-            if(deadCount == numPlayers - 1)
+            if(deadCount == numPlayers || deadCount == numPlayers - 1)
             {
                 CmdInitiateEndGame();
             }
