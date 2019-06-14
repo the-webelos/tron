@@ -87,8 +87,6 @@ namespace Webelos.Tron
 
 		public override void OnClientReady(bool readyState)
 		{
-			Debug.LogWarningFormat("OnClientReady index:{0} netId:{1} {2}", Index, netId, readyState);
-
 			if (readyState) {
 				isReadyText.text = "Ready";
 			} else {

@@ -43,7 +43,6 @@ public class PlayerController : NetworkBehaviour
 
 	public override void OnStartLocalPlayer()
 	{
-		Debug.LogWarningFormat("OnStartLocalPlayer {0}", name);
 		base.OnStartLocalPlayer();
 
 		playerInput = GetComponent<PlayerInput>();
