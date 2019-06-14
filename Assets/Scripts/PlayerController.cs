@@ -33,7 +33,9 @@ namespace Webelos.Tron
 
 		Material materialClone;
 
-		void SetColor(Color color)
+        private NetworkManagerExt networkManager;
+
+        void SetColor(Color color)
 		{
 			if (materialClone == null) materialClone = GetComponentInChildren<Renderer>().material;
 			materialClone.color = color;
@@ -103,7 +105,9 @@ namespace Webelos.Tron
 
 			// call all the clients and set this player as dead
 			RpcDead();
-		}
+            networkManager = NetworkManager.singleton as NetworkManagerExt;
+            networkManager.incrementDead();
+        }
 
 		[ClientRpc]
 		void RpcDead()
