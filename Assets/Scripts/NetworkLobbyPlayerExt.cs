@@ -11,14 +11,14 @@ namespace Webelos.Tron
 		public Text nameText;
         public Text isReadyText;
 
-        [SyncVar(hook = nameof(UpdatePlayerColor))]
+        [SyncVar(hook=nameof(UpdatePlayerColor))]
         public Color playerColor;
 
 		[SyncVar]
 		public string Name;
 
-        private GameObject playerPreview;
-        private GameObject playerIcon;
+        private Material playerPreviewMaterial;
+        private Material playerIconMaterial;
         private Text playerPreviewName;
 
         public override void OnStartClient()
@@ -47,21 +47,30 @@ namespace Webelos.Tron
 				gameObject.transform.SetAsLastSibling();
 				Name = "Player " + Index;
 
-                //LayoutRebuilder.ForceRebuildLayoutImmediate(playerListContent.transform as RectTransform);
+                playerPreviewMaterial = GameObject.Find("PlayerPreview").GetComponent<MeshRenderer>().material;
+                playerIconMaterial = gameObject.transform.Find("Player").Find("PlayerBodyCapsule").gameObject.GetComponent<MeshRenderer>().material;
+                playerPreviewName = GameObject.Find("PlayerName").GetComponent<Text>();
             }
 		}
 
-		void OnReadyClick()
+        private void OnDestroy() {
+            Destroy(playerPreviewMaterial);
+            Destroy(playerIconMaterial);
+        }
+
+        void OnReadyClick()
 		{
 			CmdChangeReadyState(!ReadyToBegin);
 		}
 
         public void NextColor() {
-            playerColor = PlayerColors.NextColor(PlayerColors.NextColor(playerColor));
+            Debug.Log("CHANGE COLOR NEXT");
+            playerColor = PlayerColors.NextColor(playerColor);
         }
 
         public void PreviousColor() {
-            playerColor = PlayerColors.PreviousColor(PlayerColors.PreviousColor(playerColor));
+            Debug.Log("CHANGE COLOR PREVIOUS");
+            playerColor = PlayerColors.PreviousColor(playerColor);
         }
 
         public override void OnClientEnterLobby()
@@ -78,10 +87,6 @@ namespace Webelos.Tron
                 Button button2 = GameObject.Find("ToggleLeft").GetComponent<Button>() as Button;
                 button2.onClick.AddListener(PreviousColor);
 
-                playerPreview = GameObject.Find("PlayerPreview");
-                playerIcon = gameObject.transform.Find("Player").Find("PlayerBodyCapsule").gameObject;
-
-                playerPreviewName = GameObject.Find("PlayerName").GetComponent<Text>();
                 playerPreviewName.text = Name;
             }
 
@@ -113,8 +118,11 @@ namespace Webelos.Tron
 		}
 
         private void UpdatePlayerColor(Color color) {
-            playerPreview.GetComponent<MeshRenderer>().material.color = color;
-            playerIcon.GetComponent<MeshRenderer>().material.color = color;
+            Debug.LogFormat("Updating player's colors: {3}, {0}, {1}, {2}", color, playerPreviewMaterial, playerIconMaterial, isLocalPlayer);
+            if (isLocalPlayer)
+                playerPreviewMaterial.color = color;
+
+            playerIconMaterial.color = color;
         }
 	}
 }
