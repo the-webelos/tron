@@ -14,6 +14,7 @@ namespace Webelos.Tron
 
         private GameObject playerPreview;
         private GameObject playerIcon;
+        private Text playerPreviewName;
 
 		[SyncVar]
 		public string Name;
@@ -43,9 +44,6 @@ namespace Webelos.Tron
 				gameObject.transform.SetParent(playerListContent.transform, false);
 				gameObject.transform.SetAsLastSibling();
 				Name = "Player " + Index;
-
-                playerIcon = gameObject.transform.Find("Player").Find("PlayerBodyCapsule").gameObject;
-                Debug.Log(playerIcon);
 
                 //LayoutRebuilder.ForceRebuildLayoutImmediate(playerListContent.transform as RectTransform);
             }
@@ -85,6 +83,10 @@ namespace Webelos.Tron
                 button2.onClick.AddListener(PreviousColor);
 
                 playerPreview = GameObject.Find("PlayerPreview");
+                playerIcon = gameObject.transform.Find("Player").Find("PlayerBodyCapsule").gameObject;
+
+                playerPreviewName = GameObject.Find("PlayerName").GetComponent<Text>();
+                playerPreviewName.text = Name;
 
                 UpdatePlayerColor(playerColor);
             }
