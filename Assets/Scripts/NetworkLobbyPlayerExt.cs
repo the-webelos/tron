@@ -11,14 +11,14 @@ namespace Webelos.Tron
 		public Text nameText;
         public Text isReadyText;
 
-        [SyncVar(hook=nameof(UpdatePlayerColor))]
+        [SyncVar(hook="UpdatePlayerColor")]
         public Color playerColor;
 
 		[SyncVar]
 		public string Name;
 
-        private Material playerPreviewMaterial;
-        private Material playerIconMaterial;
+        Material playerPreviewMaterial;
+        Material playerIconMaterial;
         private Text playerPreviewName;
 
         public override void OnStartClient()
@@ -50,6 +50,9 @@ namespace Webelos.Tron
                 playerPreviewMaterial = GameObject.Find("PlayerPreview").GetComponent<MeshRenderer>().material;
                 playerIconMaterial = gameObject.transform.Find("Player").Find("PlayerBodyCapsule").gameObject.GetComponent<MeshRenderer>().material;
                 playerPreviewName = GameObject.Find("PlayerName").GetComponent<Text>();
+
+                playerColor = PlayerColors.RandomColor();
+                UpdatePlayerColor(playerColor);
             }
 		}
 
@@ -64,12 +67,12 @@ namespace Webelos.Tron
 		}
 
         public void NextColor() {
-            Debug.Log("CHANGE COLOR NEXT");
+            if (LogFilter.Debug) Debug.Log("CHANGE COLOR NEXT");
             playerColor = PlayerColors.NextColor(playerColor);
         }
 
         public void PreviousColor() {
-            Debug.Log("CHANGE COLOR PREVIOUS");
+            if (LogFilter.Debug) Debug.Log("CHANGE COLOR PREVIOUS");
             playerColor = PlayerColors.PreviousColor(playerColor);
         }
 
@@ -117,8 +120,12 @@ namespace Webelos.Tron
 			}
 		}
 
-        private void UpdatePlayerColor(Color color) {
-            Debug.LogFormat("Updating player's colors: {3}, {0}, {1}, {2}", color, playerPreviewMaterial, playerIconMaterial, isLocalPlayer);
+        void UpdatePlayerColor(Color color) {
+            if (LogFilter.Debug) Debug.LogFormat("Updating player's colors: {3}, {0}, {1}, {2}", color, playerPreviewMaterial, playerIconMaterial, isLocalPlayer);
+
+            if (!isServer)
+                playerColor = color;
+
             if (isLocalPlayer)
                 playerPreviewMaterial.color = color;
 
