@@ -930,7 +930,7 @@ MonoBehaviour:
   runInBackground: 1
   startOnHeadless: 1
   serverTickRate: 30
-  showDebugMessages: 1
+  showDebugMessages: 0
   offlineScene: Connect
   onlineScene: Lobby
   transport: {fileID: 985035980}
@@ -940,7 +940,9 @@ MonoBehaviour:
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 2759096744974765555, guid: 91f9c8cf99dac4b83bebcc65f65459db, type: 3}
+  - {fileID: 1000011128802252, guid: 96730f8640590934eacb6f860058e7f9, type: 3}
   showLobbyGUI: 0
   minPlayers: 1
   lobbyPlayerPrefab: {fileID: 6253553756463570838, guid: 6432a590b254043b38bb944ca2e9eeb7,

@@ -3,7 +3,6 @@ using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(CharacterController))]
-//[RequireComponent(typeof(Camera))]
 public class PlayerController : NetworkBehaviour
 {
 	public float moveSpeed = 300f;
@@ -18,7 +17,6 @@ public class PlayerController : NetworkBehaviour
 	private CharacterController characterController;
 	private int ticksSinceLastDroppedWall = 0;
 	private GamePrep gamePrep;
-	private WallSpawnManager wallSpawnManager;
 	private PlayerInput playerInput;
 	private Vector3 origCamPosition;
 	private Quaternion origCamRotation;
@@ -52,7 +50,6 @@ public class PlayerController : NetworkBehaviour
 
         characterController = GetComponent<CharacterController>();
 		gamePrep = GameObject.Find("GameManagement").GetComponent<GamePrep>();
-		wallSpawnManager = GameObject.Find("SpawnManager").GetComponent<WallSpawnManager>();
 
 		//Save main camera transform so we can reset after we die
 		origCamPosition = Camera.main.transform.position;
@@ -75,7 +72,8 @@ public class PlayerController : NetworkBehaviour
 		characterController.SimpleMove(direction * Time.fixedDeltaTime);
 
 		if (ticksSinceLastDroppedWall > framesBetweenWallDrops) {
-			DropWall();
+			// Call the server and tell it to spawn a wall
+			CmdDropWall();
 			ticksSinceLastDroppedWall = 0;
 		} else {
 			ticksSinceLastDroppedWall++;
@@ -83,45 +81,60 @@ public class PlayerController : NetworkBehaviour
 
 	}
 
+	[ServerCallback]
 	private void OnTriggerEnter(Collider other)
 	{
 		//if (other.CompareTag("Wall")) {
 		//     StartCoroutine(PlayerDeath());
 		// }
-		if (!dead) StartCoroutine(PlayerDeath());
+		if (!dead) CmdPlayerExplode();
 	}
 
-	private IEnumerator PlayerDeath()
+	[Command]
+	void CmdPlayerExplode()
+	{
+		// spawn an explosion
+		if (explosionSystem) {
+			GameObject explosion = Instantiate(explosionSystem, transform.position, Quaternion.identity);
+			NetworkServer.Spawn(explosion);
+		}
+
+		// call all the clients and set this player as dead
+		RpcDead();
+	}
+
+	[ClientRpc]
+	void RpcDead()
 	{
 		// stop the player's movement and disable the renderer so the player object is hidden
 		dead = true;
 		GetComponentInChildren<MeshRenderer>().enabled = false;
 
-		// spawn an explosion
-		if (explosionSystem) {
-//			GameObject explosion = Instantiate(explosionSystem, transform.position, Quaternion.identity);
-			GameObject explosion = Instantiate(explosionSystem, transform, false);
+		// if this object belongs to the local player we want to reset the camera after a few seconds
+		if (isLocalPlayer) {
+			StartCoroutine(WaitAndReset());
 		}
-
-		// after secondsBeforeSpectate, enable the main camera for spectating and destroy this game object
-		yield return new WaitForSeconds(secondsBeforeSpectate);
-
-		//reset camera
-		Camera.main.transform.SetPositionAndRotation(origCamPosition, origCamRotation);
-		Camera.main.transform.SetParent(null);
-
-		//Destroy(gameObject);
 	}
 
-	private void DropWall()
+	private IEnumerator WaitAndReset()
+	{
+    	// after secondsBeforeSpectate, enable the main camera for spectating and destroy this game object
+		yield return new WaitForSeconds(secondsBeforeSpectate);
+
+    	//reset camera
+		Camera.main.transform.SetPositionAndRotation(origCamPosition, origCamRotation);
+		Camera.main.transform.SetParent(null);
+	}
+
+	[Command]
+	void CmdDropWall()
 	{
 		Vector3 p = new Vector3(transform.position.x, transform.position.y, transform.position.z) - (transform.forward.normalized * 2f);
 
-		GameObject wall = wallSpawnManager.GetFromPool(p);
-		wall.transform.rotation = transform.rotation;
+		GameObject wall = Instantiate(trailWallPrefab, p, transform.rotation);
         wall.GetComponent<Renderer>().material.color = playerColor;
 
-        NetworkServer.Spawn(wall, wallSpawnManager.assetId);
+        NetworkServer.Spawn(wall);
 
 		StartCoroutine(DestroyWall(wall, 30.0f));
 	}
@@ -129,7 +142,6 @@ public class PlayerController : NetworkBehaviour
 	private IEnumerator DestroyWall(GameObject wall, float timer)
 	{
 		yield return new WaitForSeconds(timer);
-		wallSpawnManager.UnSpawnObject(wall);
 		NetworkServer.UnSpawn(wall);
 	}
 }
