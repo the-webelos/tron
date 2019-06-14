@@ -13,6 +13,7 @@ namespace Webelos.Tron
         public Color playerColor;
 
         private GameObject playerPreview;
+        private GameObject playerIcon;
 
 		[SyncVar]
 		public string Name;
@@ -41,10 +42,13 @@ namespace Webelos.Tron
 
 				gameObject.transform.SetParent(playerListContent.transform, false);
 				gameObject.transform.SetAsLastSibling();
-				Name = "LobbyPlayer " + Index;
+				Name = "Player " + Index;
 
-				//LayoutRebuilder.ForceRebuildLayoutImmediate(playerListContent.transform as RectTransform);
-			}
+                playerIcon = gameObject.transform.Find("Player").Find("PlayerBodyCapsule").gameObject;
+                Debug.Log(playerIcon);
+
+                //LayoutRebuilder.ForceRebuildLayoutImmediate(playerListContent.transform as RectTransform);
+            }
 		}
 
 		void OnReadyClick()
@@ -81,6 +85,7 @@ namespace Webelos.Tron
                 button2.onClick.AddListener(PreviousColor);
 
                 playerPreview = GameObject.Find("PlayerPreview");
+
                 UpdatePlayerColor(playerColor);
             }
         }
@@ -108,7 +113,8 @@ namespace Webelos.Tron
 		}
 
         private void UpdatePlayerColor(Color color) {
-            playerPreview.GetComponent<MeshRenderer>().material.color = playerColor;
+            playerPreview.GetComponent<MeshRenderer>().material.color = color;
+            playerIcon.GetComponent<MeshRenderer>().material.color = color;
         }
 	}
 }
