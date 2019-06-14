@@ -3,7 +3,7 @@ using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(Camera))]
+//[RequireComponent(typeof(Camera))]
 public class PlayerController : NetworkBehaviour
 {
 	public float moveSpeed = 300f;
@@ -11,7 +11,6 @@ public class PlayerController : NetworkBehaviour
 	public GameObject explosionSystem;
 	public float secondsBeforeSpectate = 2f;
 	public int framesBetweenWallDrops = 5;
-	public PlayerInput playerInput;
 
 	[SyncVar]
 	public string Name;
@@ -20,13 +19,15 @@ public class PlayerController : NetworkBehaviour
 	private int ticksSinceLastDroppedWall = 0;
 	private GamePrep gamePrep;
 	private WallSpawnManager wallSpawnManager;
+	private PlayerInput playerInput;
+	private Vector3 origCamPosition;
+	private Quaternion origCamRotation;
 
 	public GameObject trailWallPrefab;
 
 	[SyncVar(hook = nameof(SetColor))]
 	public Color playerColor = Color.white;
 
-	[SyncVar]
 	public bool dead = false;
 
 	Material materialClone;
@@ -47,14 +48,20 @@ public class PlayerController : NetworkBehaviour
 		Debug.LogWarningFormat("OnStartLocalPlayer {0}", name);
 		base.OnStartLocalPlayer();
 
-        GameObject.Find("Main Camera").gameObject.transform.parent = this.transform;
+		playerInput = GetComponent<PlayerInput>();
 
         characterController = GetComponent<CharacterController>();
 		gamePrep = GameObject.Find("GameManagement").GetComponent<GamePrep>();
 		wallSpawnManager = GameObject.Find("SpawnManager").GetComponent<WallSpawnManager>();
 
-		GetComponentInChildren<Camera>().enabled = true;
-		Camera.main.enabled = false;
+		//Save main camera transform so we can reset after we die
+		origCamPosition = Camera.main.transform.position;
+		origCamRotation = Camera.main.transform.rotation;
+
+		Camera.main.transform.SetParent(transform, false);
+
+		Camera.main.transform.localPosition = new Vector3(0, 1.65f, -5.05f);
+		Camera.main.transform.LookAt(transform);
 	}
 
 	void FixedUpdate()
@@ -76,12 +83,6 @@ public class PlayerController : NetworkBehaviour
 
 	}
 
-	//	void LateUpdate()
-	//	{
-	//		if (!isLocalPlayer || characterController == null || dead || !gamePrep.complete) return;
-
-	//	}
-
 	private void OnTriggerEnter(Collider other)
 	{
 		//if (other.CompareTag("Wall")) {
@@ -98,31 +99,31 @@ public class PlayerController : NetworkBehaviour
 
 		// spawn an explosion
 		if (explosionSystem) {
-			GameObject explosion = Instantiate(explosionSystem, transform.position, Quaternion.identity);
+//			GameObject explosion = Instantiate(explosionSystem, transform.position, Quaternion.identity);
+			GameObject explosion = Instantiate(explosionSystem, transform, false);
 		}
 
 		// after secondsBeforeSpectate, enable the main camera for spectating and destroy this game object
 		yield return new WaitForSeconds(secondsBeforeSpectate);
-		Camera.main.enabled = true;
-		Destroy(gameObject);
+
+		//reset camera
+		Camera.main.transform.SetPositionAndRotation(origCamPosition, origCamRotation);
+		Camera.main.transform.SetParent(null);
+
+		//Destroy(gameObject);
 	}
 
 	private void DropWall()
 	{
 		Vector3 p = new Vector3(transform.position.x, transform.position.y, transform.position.z) - (transform.forward.normalized * 2f);
-		//        Quaternion q = transform.rotation;
 
 		GameObject wall = wallSpawnManager.GetFromPool(p);
 		wall.transform.rotation = transform.rotation;
         wall.GetComponent<Renderer>().material.color = playerColor;
 
-
         NetworkServer.Spawn(wall, wallSpawnManager.assetId);
 
 		StartCoroutine(DestroyWall(wall, 30.0f));
-
-		// Drop wall with same rotation is that of the player
-		//GameObject wall = Instantiate(trailWallPrefab, p, q);
 	}
 
 	private IEnumerator DestroyWall(GameObject wall, float timer)

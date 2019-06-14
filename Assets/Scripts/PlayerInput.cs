@@ -6,17 +6,12 @@ public class PlayerInput : MonoBehaviour
 {
 	public float turnSpeed;
 
-	private Camera cam;
 	private float look;
-
-	void Start()
-	{
-		cam = GetComponentInChildren<Camera>();
-	}
 
 	void FixedUpdate() {
 		Vector2 mousePosition = Input.mousePosition;
-		Vector3 screenPosition = cam.ScreenToViewportPoint(new Vector3(mousePosition.x, mousePosition.y, transform.position.z - cam.transform.position.z));
+		Vector3 screenPosition = Camera.main.ScreenToViewportPoint(
+        		new Vector3(mousePosition.x, mousePosition.y, transform.position.z - Camera.main.transform.position.z));
 
 		// if screenPosition.x is outside of range [0, 1], clamp it
 		// can technically happen if the mouse is outside of the viewport

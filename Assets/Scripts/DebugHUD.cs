@@ -33,7 +33,7 @@ public class DebugHUD : MonoBehaviour
 			GUILayout.Label("Client: address=" + manager.networkAddress);
    			GUILayout.Label("Client: connId=" + NetworkClient.connection.connectionId);
 			GUILayout.Label("Client: netId=" + ClientScene.localPlayer?.netId);
-			GUILayout.Label("Client: name=" + ClientScene.localPlayer?.name);
+//			GUILayout.Label("Client: name=" + ClientScene.localPlayer?.name);
 		}
 
 		GUILayout.EndArea();
