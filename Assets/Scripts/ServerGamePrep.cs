@@ -75,7 +75,7 @@ namespace Webelos.Tron
 			Debug.LogWarningFormat("Prep complete");
 
 			if (musicManager) {
-				//musicManager.PlayClips();
+				musicManager.PlayClips();
 			}
 		}
 
