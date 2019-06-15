@@ -106,7 +106,7 @@ namespace Webelos.Tron
 			// call all the clients and set this player as dead
 			RpcDead();
             networkManager = NetworkManager.singleton as NetworkManagerExt;
-            networkManager.incrementDead();
+            gamePrep.incrementDead();
         }
 
 		[ClientRpc]

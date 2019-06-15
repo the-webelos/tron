@@ -13,7 +13,6 @@ namespace Webelos.Tron
 
         public Toggle hostToggle;
         public Toggle joinToggle;
-        private int deadCount = 0;
 
 		public int numPlayersLoadedGameScene = 0;
 
@@ -97,29 +96,5 @@ namespace Webelos.Tron
 				numPlayersLoadedGameScene = 0;
 			}
 		}
-
-        public void incrementDead()
-        {
-            deadCount += 1;
-
-            if(deadCount == numPlayers || deadCount == numPlayers - 1)
-            {
-                CmdInitiateEndGame();
-            }
-        }
-
-        [Command]
-        void CmdInitiateEndGame()
-        {
-            Debug.Log("Ending game...");
-            StartCoroutine(WaitAndGoToLobby());
-            // TODO Announce winner
-        }
-
-        private IEnumerator WaitAndGoToLobby()
-        {
-            yield return new WaitForSeconds(5.0f);
-            SceneManager.LoadScene("Lobby");
-        }
-    }
+	}
 }
