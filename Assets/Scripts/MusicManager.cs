@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MusicManager : MonoBehaviour
 {
@@ -33,6 +34,10 @@ public class MusicManager : MonoBehaviour
     void Start()
     {
         instance.loopClip.loop = true;
+    }
+
+    public void SetVolume(Slider slider) {
+        AudioListener.volume = slider.value;
     }
 
     public void PlayClips()
