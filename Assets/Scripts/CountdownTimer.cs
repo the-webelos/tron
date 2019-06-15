@@ -10,8 +10,10 @@ namespace Webelos.Tron
 		public float floatTimeleft = 3.0f;
 		public Text timerText;
 		public Animator countdownFadeAnimator;
+        public AudioSource beepLow;
+        public AudioSource beepHigh;
 
-		[SyncVar]
+        [SyncVar]
 		public int timeLeft;
 
 		public void Tick(float delta)
@@ -31,9 +33,11 @@ namespace Webelos.Tron
 		{
 			if (remaining > 0) {
 				timerText.text = remaining.ToString();
+                beepLow.Play();
 			} else {
 				timerText.text = "PLAY";
 				countdownFadeAnimator.SetTrigger("StartFade");
+                beepHigh.Play();
 			}
 		}
 	}
