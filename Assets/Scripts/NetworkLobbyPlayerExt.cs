@@ -46,9 +46,9 @@ namespace Webelos.Tron
 				gameObject.transform.SetAsLastSibling();
 				Name = "Player " + Index;
 
-                playerPreviewMaterial = GameObject.Find("PlayerPreview").GetComponent<MeshRenderer>().material;
-                playerIconMaterial = gameObject.transform.Find("Player").Find("PlayerBodyCapsule").gameObject.GetComponent<MeshRenderer>().material;
-                playerPreviewName = GameObject.Find("PlayerName").GetComponent<Text>();
+                playerPreviewMaterial = GameObject.Find("PlayerHighlight").GetComponent<MeshRenderer>().material;
+                playerIconMaterial = gameObject.transform.Find("Player").Find("Wheel").gameObject.GetComponent<MeshRenderer>().material;
+                playerPreviewName = GameObject.Find("PlayerPreviewName").GetComponent<Text>();
 
 				nameText.text = Name;
 			}
@@ -128,7 +128,7 @@ namespace Webelos.Tron
                 playerPreviewMaterial.color = color;
 
 			if (playerIconMaterial == null) {
-				playerIconMaterial = gameObject.transform.Find("Player").Find("PlayerBodyCapsule").gameObject.GetComponent<MeshRenderer>().material;
+				playerIconMaterial = gameObject.transform.Find("Player").Find("Wheel").gameObject.GetComponent<MeshRenderer>().material;
 			}
 
 			playerIconMaterial.color = color;

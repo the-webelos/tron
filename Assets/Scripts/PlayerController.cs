@@ -25,6 +25,7 @@ namespace Webelos.Tron
 		private Quaternion origCamRotation;
 
 		public GameObject trailWallPrefab;
+		public GameObject playerHighlight;
 
 		[SyncVar(hook = nameof(SetColor))]
 		public Color playerColor = Color.white;
@@ -37,7 +38,7 @@ namespace Webelos.Tron
 
         void SetColor(Color color)
 		{
-			if (materialClone == null) materialClone = GetComponentInChildren<Renderer>().material;
+			if (materialClone == null) materialClone = playerHighlight.GetComponent<Renderer>().material;
 			materialClone.color = color;
 		}
 
