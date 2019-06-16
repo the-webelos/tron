@@ -115,7 +115,9 @@ namespace Webelos.Tron
 		{
 			// stop the player's movement and disable the renderer so the player object is hidden
 			dead = true;
-			GetComponentInChildren<MeshRenderer>().enabled = false;
+			foreach (MeshRenderer meshRenderer in GetComponentsInChildren<MeshRenderer>()) {
+				meshRenderer.enabled = false;
+			}
 
 			// if this object belongs to the local player we want to reset the camera after a few seconds
 			if (isLocalPlayer) {

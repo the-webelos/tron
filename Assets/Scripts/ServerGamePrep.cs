@@ -17,6 +17,7 @@ namespace Webelos.Tron
 							   // 1 - all players loaded
 							   // 2 - prep complete
 							   // 3 - round over
+							   // 4 - loading lobby
 
 		private NetworkManagerExt networkManager;
 
@@ -54,6 +55,7 @@ namespace Webelos.Tron
 				}
 			} else if (state == 3) {
 				CmdInitiateEndGame();
+				state = 4;
 			}
 		}
 

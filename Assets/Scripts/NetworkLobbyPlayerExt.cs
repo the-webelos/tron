@@ -20,39 +20,13 @@ namespace Webelos.Tron
         Material playerIconMaterial;
         private Text playerPreviewName;
 
-        public override void OnStartClient()
-		{
-			if (LogFilter.Debug) Debug.LogFormat("OnStartClient index:{0} netId:{1} {2} {3}", Index, netId, SceneManager.GetActiveScene().name, playerColor);
-
-			base.OnStartClient();
-			NetworkLobbyManager lobby = NetworkManager.singleton as NetworkLobbyManager;
-
-			/*
-                This demonstrates how to set the parent of the LobbyPlayerPrefab to an arbitrary scene object
-                A similar technique would be used if a full canvas layout UI existed and we wanted to show
-                something more visual for each player in that layout, such as a name, avatar, etc.
-
-                Note: LobbyPlayer prefab will be marked DontDestroyOnLoad and carried forward to the game scene.
-                      Because of this, NetworkLobbyManager must automatically set the parent to null
-                      in ServerChangeScene and OnClientChangeScene.
-            */
-
-			if (lobby != null && SceneManager.GetActiveScene().name == lobby.LobbyScene) {
-				GameObject playerListContent = GameObject.Find("PlayerListContent");
-
-				gameObject.transform.position = new Vector3(0, 0, 0);
-
-				gameObject.transform.SetParent(playerListContent.transform, false);
-				gameObject.transform.SetAsLastSibling();
-				Name = "Player " + Index;
-
-                playerPreviewMaterial = GameObject.Find("PlayerHighlight").GetComponent<MeshRenderer>().material;
-                playerIconMaterial = gameObject.transform.Find("Player").Find("Wheel").gameObject.GetComponent<MeshRenderer>().material;
-                playerPreviewName = GameObject.Find("PlayerPreviewName").GetComponent<Text>();
-
-				nameText.text = Name;
-			}
-		}
+//        public override void OnStartClient()
+//		{
+			//if (LogFilter.Debug) Debug.LogFormat("OnStartClient index:{0} netId:{1} {2} {3}", Index, netId, SceneManager.GetActiveScene().name, playerColor);
+//			Debug.LogWarningFormat("OnStartClient index:{0} netId:{1} {2} {3}", Index, netId, SceneManager.GetActiveScene().name, playerColor);
+//
+//			base.OnStartClient();
+//		}
 
         private void OnDestroy() {
             Destroy(playerPreviewMaterial);
@@ -76,7 +50,36 @@ namespace Webelos.Tron
 
         public override void OnClientEnterLobby()
 		{
-			if (LogFilter.Debug) Debug.LogFormat("OnClientEnterLobby index:{0} netId:{1} {2} {3} {4}", Index, netId, SceneManager.GetActiveScene().name, playerColor, isLocalPlayer);
+//			if (LogFilter.Debug) Debug.LogFormat("OnClientEnterLobby index:{0} netId:{1} {2} {3} {4}", Index, netId, SceneManager.GetActiveScene().name, playerColor, isLocalPlayer);
+			Debug.LogWarningFormat("OnClientEnterLobby index:{0} netId:{1} {2} {3} {4}", Index, netId, SceneManager.GetActiveScene().name, playerColor, isLocalPlayer);
+
+			NetworkLobbyManager lobby = NetworkManager.singleton as NetworkLobbyManager;
+
+			/*
+                This demonstrates how to set the parent of the LobbyPlayerPrefab to an arbitrary scene object
+                A similar technique would be used if a full canvas layout UI existed and we wanted to show
+                something more visual for each player in that layout, such as a name, avatar, etc.
+
+                Note: LobbyPlayer prefab will be marked DontDestroyOnLoad and carried forward to the game scene.
+                      Because of this, NetworkLobbyManager must automatically set the parent to null
+                      in ServerChangeScene and OnClientChangeScene.
+            */
+
+			if (lobby != null && SceneManager.GetActiveScene().name == lobby.LobbyScene) {
+				GameObject playerListContent = GameObject.Find("PlayerListContent");
+
+				gameObject.transform.position = new Vector3(0, 0, 0);
+
+				gameObject.transform.SetParent(playerListContent.transform, false);
+				gameObject.transform.SetAsLastSibling();
+				Name = "Player " + Index;
+
+				playerPreviewMaterial = GameObject.Find("PlayerHighlight").GetComponent<MeshRenderer>().material;
+				playerIconMaterial = gameObject.transform.Find("Player").Find("Wheel").gameObject.GetComponent<MeshRenderer>().material;
+				playerPreviewName = GameObject.Find("PlayerPreviewName").GetComponent<Text>();
+
+				nameText.text = Name;
+			}
 
 			if (isLocalPlayer) {
 				Button button = GameObject.Find("ReadyButton").GetComponent<Button>() as Button;
@@ -124,13 +127,16 @@ namespace Webelos.Tron
 		}
 
 		void UpdatePlayerColor(Color color) {
-            if (isLocalPlayer)
-                playerPreviewMaterial.color = color;
+			if (isLocalPlayer) {
+				if (playerPreviewMaterial == null) {
+					playerPreviewMaterial = GameObject.Find("PlayerHighlight").GetComponent<MeshRenderer>().material;
+				}
+				playerPreviewMaterial.color = color;
+			}
 
 			if (playerIconMaterial == null) {
 				playerIconMaterial = gameObject.transform.Find("Player").Find("Wheel").gameObject.GetComponent<MeshRenderer>().material;
 			}
-
 			playerIconMaterial.color = color;
         }
 	}
