@@ -40,6 +40,7 @@ namespace Webelos.Tron
 		{
 			if (materialClone == null) materialClone = playerHighlight.GetComponent<Renderer>().material;
 			materialClone.color = color;
+			materialClone.SetColor("_EmissionColor", color);
 		}
 
 		private void OnDestroy()
