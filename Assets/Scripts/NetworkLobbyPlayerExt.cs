@@ -132,12 +132,14 @@ namespace Webelos.Tron
 					playerPreviewMaterial = GameObject.Find("PlayerHighlight").GetComponent<MeshRenderer>().material;
 				}
 				playerPreviewMaterial.color = color;
+				playerPreviewMaterial.SetColor("_EmissionColor", color);
 			}
 
 			if (playerIconMaterial == null) {
 				playerIconMaterial = gameObject.transform.Find("Player").Find("Wheel").gameObject.GetComponent<MeshRenderer>().material;
 			}
 			playerIconMaterial.color = color;
-        }
+			playerIconMaterial.SetColor("_EmissionColor", color);
+		}
 	}
 }

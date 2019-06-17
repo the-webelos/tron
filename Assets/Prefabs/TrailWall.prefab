@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 412e177e42f9945efa999fa9fa37a0a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,8 +107,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 91f9c8cf99dac4b83bebcc65f65459db
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 2830652385
 --- !u!114 &4916587747242286234
 MonoBehaviour:
   m_ObjectHideFlags: 0

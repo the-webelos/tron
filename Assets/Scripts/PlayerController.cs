@@ -142,6 +142,7 @@ namespace Webelos.Tron
 
 			GameObject wall = Instantiate(trailWallPrefab, p, transform.rotation);
 			wall.GetComponent<Renderer>().material.color = playerColor;
+			wall.GetComponent<Renderer>().material.SetColor("_EmissionColor", playerColor);
 
 			NetworkServer.Spawn(wall);
 
